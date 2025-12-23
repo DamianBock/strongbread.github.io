@@ -1,0 +1,3 @@
+[submodule "strongbread/themes/ananke"]
+	path = strongbread/themes/ananke
+	url = https://github.com/theNewDynamic/gohugo-theme-ananke.git

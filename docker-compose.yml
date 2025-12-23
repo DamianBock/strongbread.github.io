@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  hugo:
+    image: hugomods/hugo:latest
+    container_name: hugo-site
+    restart: unless-stopped
+    # FIX 1: Run as root to ensure we can read files created by git-sync
+    user: "root"
+    # FIX 2: Point contentDir specifically to '/current'
+    # This bypasses the .worktrees folder completely.
+    command: server --bind 0.0.0.0 --poll 700ms --source /src --contentDir /git-data/current
+    ports:
+      - "80:1313"
+    volumes:
+      - ./strongbread.github.io/strongbread:/src
+      - site-content-data:/git-data
+
+  git-sync:
+    image: registry.k8s.io/git-sync/git-sync:v4.1.0
+    container_name: notes-puller
+    restart: unless-stopped
+    user: "root"
+    environment:
+      - GITSYNC_REPO=git@github.com:DamianBock/obsidian-backup.git
+      - GITSYNC_REF=main
+      - GITSYNC_PERIOD=60s
+      - GITSYNC_ROOT=/git-data
+      # This creates a shortcut named "current" that points to the clean content
+      - GITSYNC_LINK=current
+      - GITSYNC_SSH=true
+      - GITSYNC_SSH_KEY_FILE=/etc/git-secret/ssh_secure
+      - GITSYNC_SSH_KNOWN_HOSTS=false 
+    volumes:
+      - site-content-data:/git-data
+      - ./hugo_deploy_key:/tmp/hugo_deploy_key_unsafe:ro
+    entrypoint: >
+      /bin/sh -c "
+      mkdir -p /etc/git-secret &&
+      cp /tmp/hugo_deploy_key_unsafe /etc/git-secret/ssh_secure &&
+      chmod 400 /etc/git-secret/ssh_secure &&
+      /git-sync"
+
+volumes:
+  site-content-data:
