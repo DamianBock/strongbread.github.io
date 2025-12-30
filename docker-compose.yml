@@ -19,7 +19,7 @@ services:
       - "443:443"
     volumes:
       - site-static:/usr/share/nginx/html:ro
-      # MOUNT THE REAL CONFIG
+      # MOUNT THE DEFAULT CONFIG
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       # MOUNT THE CERTS
       - certs:/etc/letsencrypt
