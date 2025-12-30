@@ -1,3 +1,7 @@
 [submodule "strongbread/themes/ananke"]
 	path = strongbread/themes/ananke
 	url = https://github.com/theNewDynamic/gohugo-theme-ananke.git
+[submodule "strongbread/content"]
+	path = strongbread/content
+	url = git@github.com:DamianBock/obsidian-backup.git
+	branch = main

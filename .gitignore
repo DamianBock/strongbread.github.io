@@ -1,0 +1,8 @@
+# Generated files by Hugo
+/strongbread/public/
+/strongbread/resources/
+.hugo_build.lock
+
+# OS generated files
+/strongbread/.DS_Store
+/strongbread/Thumbs.db

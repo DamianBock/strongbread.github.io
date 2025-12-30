@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nudges on by Damian Bock</title>
+    <link>http://localhost:1313/nudge/</link>
+    <description>Recent content in Nudges on by Damian Bock</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/nudge/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>http://localhost:1313/nudge/ankereffekt/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/nudge/ankereffekt/</guid>
+      <description>&lt;h2 id=&#34;definition-ankereffekt&#34;&gt;Definition Ankereffekt&lt;/h2&gt;&#xA;&lt;p&gt;Der Ankereffekt (engl. “anchoring effect”) ist ein Phänomen aus der Kognitions­psychologie und beschreibt, dass Menschen bei Urteilen und Entscheidungen stark durch vorgegebene, oft irrelevante Informationen („Anker“) beeinflusst werden – selbst wenn ihnen das nicht bewusst ist.&#xA;Diese Anker fungieren entweder als unbewusste Suggestion, die passende Assoziationen aktiviert (Priming), oder als Startwert, von dem aus eine Anpassung („adjustment heuristic“) erfolgt.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;maß-der-wirkung--beispiele&#34;&gt;Maß der Wirkung &amp;amp; Beispiele&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Ein Maß für die Stärke des Einflusses ist der sogenannte &lt;strong&gt;Ankerindex&lt;/strong&gt;: (Differenz der geschätzten Werte) ÷ (Differenz der Ankerwerte) → ergibt %-Wert.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/nudge/verf%C3%BCgbarkeitsheuristik/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/nudge/verf%C3%BCgbarkeitsheuristik/</guid>
+      <description>&lt;h2 id=&#34;definition&#34;&gt;Definition&lt;/h2&gt;&#xA;&lt;p&gt;Die &lt;strong&gt;Verfügbarkeitsheuristik&lt;/strong&gt; ist eine kognitive &lt;strong&gt;Faustregel (Heuristik)&lt;/strong&gt;, die Menschen nutzen, um Wahrscheinlichkeiten, Häufigkeiten oder Wichtigkeit von Ereignissen einzuschätzen, &lt;strong&gt;wenn keine präzisen Daten&lt;/strong&gt; verfügbar sind.&lt;br&gt;&#xA;👉 Sie ersetzt die schwierige Frage &lt;em&gt;„Wie häufig ist etwas?“&lt;/em&gt; durch die einfachere &lt;em&gt;„Wie leicht kann ich mich daran erinnern?“&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Je leichter ein Beispiel abrufbar ist, desto wahrscheinlicher erscheint das Ereignis – unabhängig von der realen Häufigkeit.&lt;/p&gt;&#xA;&lt;p&gt;Auch bekannt als: &lt;strong&gt;Verfügbarkeitsfehler&lt;/strong&gt; (&lt;em&gt;availability error&lt;/em&gt;).&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;ursachen-für-hohe-verfügbarkeit&#34;&gt;Ursachen für hohe „Verfügbarkeit“&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;Eigene Erfahrungen&lt;/strong&gt; (persönliche Erlebnisse sind besonders einprägsam)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

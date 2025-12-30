@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>by Damian Bock</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Python, OpenCV, NumPy, Matplotlib &amp; Image Processing
+
+0. Einleitung
+Dieses Dokument fasst die wichtigsten Grundlagen der Bildverarbeitung mit OpenCV, NumPy und Matplotlib zusammen.
+Alle Beispiele sind in Python geschrieben und laufen sowohl in Skripten als auch in Jupyter Notebooks (mit Matplotlib-Anpassung).
+
+1. Bilder &amp; NumPy-Arrays – Grundidee
+
+
+Bilder werden als NumPy-Arrays dargestellt: (height, width, channels)
+
+
+Pixelwerte: 0–255, Datentyp uint8
+
+
+Farben:
+
+
+RGB = Red / Green / Blue
+
+
+HSV = Hue / Saturation / Value">
+    <meta name="generator" content="Hugo 0.153.0">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/computer-vision-notizen/">
+    
+
+    
+    
+    <meta property="og:url" content="http://localhost:1313/computer-vision-notizen/">
+  <meta property="og:site_name" content="by Damian Bock">
+  <meta property="og:title" content="by Damian Bock">
+  <meta property="og:description" content="Python, OpenCV, NumPy, Matplotlib &amp; Image Processing 0. Einleitung Dieses Dokument fasst die wichtigsten Grundlagen der Bildverarbeitung mit OpenCV, NumPy und Matplotlib zusammen.
+Alle Beispiele sind in Python geschrieben und laufen sowohl in Skripten als auch in Jupyter Notebooks (mit Matplotlib-Anpassung).
+1. Bilder &amp; NumPy-Arrays – Grundidee Bilder werden als NumPy-Arrays dargestellt: (height, width, channels)
+Pixelwerte: 0–255, Datentyp uint8
+Farben:
+RGB = Red / Green / Blue
+HSV = Hue / Saturation / Value">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+
+  <meta itemprop="name" content="by Damian Bock">
+  <meta itemprop="description" content="Python, OpenCV, NumPy, Matplotlib &amp; Image Processing 0. Einleitung Dieses Dokument fasst die wichtigsten Grundlagen der Bildverarbeitung mit OpenCV, NumPy und Matplotlib zusammen.
+Alle Beispiele sind in Python geschrieben und laufen sowohl in Skripten als auch in Jupyter Notebooks (mit Matplotlib-Anpassung).
+1. Bilder &amp; NumPy-Arrays – Grundidee Bilder werden als NumPy-Arrays dargestellt: (height, width, channels)
+Pixelwerte: 0–255, Datentyp uint8
+Farben:
+RGB = Red / Green / Blue
+HSV = Hue / Saturation / Value">
+  <meta itemprop="wordCount" content="1583">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="by Damian Bock">
+  <meta name="twitter:description" content="Python, OpenCV, NumPy, Matplotlib &amp; Image Processing 0. Einleitung Dieses Dokument fasst die wichtigsten Grundlagen der Bildverarbeitung mit OpenCV, NumPy und Matplotlib zusammen.
+Alle Beispiele sind in Python geschrieben und laufen sowohl in Skripten als auch in Jupyter Notebooks (mit Matplotlib-Anpassung).
+1. Bilder &amp; NumPy-Arrays – Grundidee Bilder werden als NumPy-Arrays dargestellt: (height, width, channels)
+Pixelwerte: 0–255, Datentyp uint8
+Farben:
+RGB = Red / Green / Blue
+HSV = Hue / Saturation / Value">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        by Damian Bock
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l mw7 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Strongbread
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><h1 id="python-opencv-numpy-matplotlib--image-processing">Python, OpenCV, NumPy, Matplotlib &amp; Image Processing</h1>
+<hr>
+<h1 id="0-einleitung">0. Einleitung</h1>
+<p>Dieses Dokument fasst die wichtigsten Grundlagen der Bildverarbeitung mit <strong>OpenCV</strong>, <strong>NumPy</strong> und <strong>Matplotlib</strong> zusammen.<br>
+Alle Beispiele sind in <strong>Python</strong> geschrieben und laufen sowohl in Skripten als auch in Jupyter Notebooks (mit Matplotlib-Anpassung).</p>
+<hr>
+<h1 id="1-bilder--numpy-arrays--grundidee">1. Bilder &amp; NumPy-Arrays – Grundidee</h1>
+<ul>
+<li>
+<p>Bilder werden als <strong>NumPy-Arrays</strong> dargestellt: <code>(height, width, channels)</code></p>
+</li>
+<li>
+<p>Pixelwerte: <strong>0–255</strong>, Datentyp <code>uint8</code></p>
+</li>
+<li>
+<p>Farben:</p>
+<ul>
+<li>
+<p><strong>RGB</strong> = Red / Green / Blue</p>
+</li>
+<li>
+<p><strong>HSV</strong> = Hue / Saturation / Value</p>
+</li>
+<li>
+<p><strong>OpenCV verwendet standardmäßig BGR</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="laden-eines-bildes--array-infos">Laden eines Bildes &amp; Array-Infos</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> cv2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;bild.jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(type(img))      <span style="color:#75715e"># numpy.ndarray</span>
+</span></span><span style="display:flex;"><span>print(img<span style="color:#f92672">.</span>shape)      <span style="color:#75715e"># z. B. (1080, 1920, 3)</span>
+</span></span><span style="display:flex;"><span>print(img<span style="color:#f92672">.</span>dtype)      <span style="color:#75715e"># uint8</span>
+</span></span></code></pre></div><h3 id="wikipedia-links">Wikipedia-Links</h3>
+<ul>
+<li>
+<p>RGB: <a href="https://de.wikipedia.org/wiki/RGB-Farbraum">https://de.wikipedia.org/wiki/RGB-Farbraum</a></p>
+</li>
+<li>
+<p>HSV: <a href="https://de.wikipedia.org/wiki/HSV-Farbraum">https://de.wikipedia.org/wiki/HSV-Farbraum</a></p>
+</li>
+<li>
+<p>NumPy: <a href="https://de.wikipedia.org/wiki/NumPy">https://de.wikipedia.org/wiki/NumPy</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="2-bilder-laden-anzeigen-speichern-opencv">2. Bilder laden, anzeigen, speichern (OpenCV)</h1>
+<h2 id="21-bild-laden">2.1 Bild laden</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;bild.jpg&#34;</span>, cv2<span style="color:#f92672">.</span>IMREAD_COLOR)
+</span></span><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;bild.jpg&#34;</span>, cv2<span style="color:#f92672">.</span>IMREAD_GRAYSCALE)
+</span></span></code></pre></div><h2 id="22-bild-anzeigen-für-reine-python-skripte">2.2 Bild anzeigen (für reine Python-Skripte)</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Fenster&#34;</span>, img)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>destroyAllWindows()
+</span></span></code></pre></div><h2 id="23-bild-speichern">2.3 Bild speichern</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;output.jpg&#34;</span>, img)
+</span></span></code></pre></div><hr>
+<h1 id="3-zeichnen-in-bildern-shapes-text">3. Zeichnen in Bildern (Shapes, Text)</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> cv2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((<span style="color:#ae81ff">600</span>, <span style="color:#ae81ff">800</span>, <span style="color:#ae81ff">3</span>), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>uint8)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Linie</span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>line(img, (<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">50</span>), (<span style="color:#ae81ff">300</span>,<span style="color:#ae81ff">50</span>), (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Rechteck</span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>rectangle(img, (<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">100</span>), (<span style="color:#ae81ff">300</span>,<span style="color:#ae81ff">300</span>), (<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Quadrat</span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>rectangle(img, (<span style="color:#ae81ff">350</span>,<span style="color:#ae81ff">100</span>), (<span style="color:#ae81ff">550</span>,<span style="color:#ae81ff">300</span>), (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>), <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Kreis</span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>circle(img, (<span style="color:#ae81ff">200</span>,<span style="color:#ae81ff">450</span>), <span style="color:#ae81ff">80</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>), <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Polygon</span>
+</span></span><span style="display:flex;"><span>pts <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[<span style="color:#ae81ff">500</span>,<span style="color:#ae81ff">400</span>], [<span style="color:#ae81ff">700</span>,<span style="color:#ae81ff">500</span>], [<span style="color:#ae81ff">650</span>,<span style="color:#ae81ff">550</span>], [<span style="color:#ae81ff">480</span>,<span style="color:#ae81ff">500</span>]], np<span style="color:#f92672">.</span>int32)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>polylines(img, [pts], <span style="color:#66d9ef">True</span>, (<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Text</span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>putText(img, <span style="color:#e6db74">&#34;Hello OpenCV!&#34;</span>, (<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">580</span>),
+</span></span><span style="display:flex;"><span>            cv2<span style="color:#f92672">.</span>FONT_HERSHEY_SIMPLEX, <span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>), <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Drawings&#34;</span>, img)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>destroyAllWindows()
+</span></span></code></pre></div><hr>
+<h1 id="4-maus-events-interaktives-zeichnen">4. Maus-Events (interaktives Zeichnen)</h1>
+<h2 id="41-beispiel-kreis-beim-klicken-zeichnen">4.1 Beispiel: Kreis beim Klicken zeichnen</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> cv2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((<span style="color:#ae81ff">600</span>,<span style="color:#ae81ff">800</span>,<span style="color:#ae81ff">3</span>), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>uint8)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">click_event</span>(event, x, y, flags, param):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> event <span style="color:#f92672">==</span> cv2<span style="color:#f92672">.</span>EVENT_LBUTTONDOWN:
+</span></span><span style="display:flex;"><span>        cv2<span style="color:#f92672">.</span>circle(img, (x,y), <span style="color:#ae81ff">20</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0</span>), <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Window&#34;</span>, img)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>namedWindow(<span style="color:#e6db74">&#34;Window&#34;</span>)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>setMouseCallback(<span style="color:#e6db74">&#34;Window&#34;</span>, click_event)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Window&#34;</span>, img)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>destroyAllWindows()
+</span></span></code></pre></div><h2 id="42-übersicht-der-maus-events">4.2 Übersicht der Maus-Events</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Event</th>
+          <th>Bedeutung</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>EVENT_LBUTTONDOWN</code></td>
+          <td>Linke Maustaste gedrückt</td>
+      </tr>
+      <tr>
+          <td><code>EVENT_LBUTTONUP</code></td>
+          <td>Linke Maustaste losgelassen</td>
+      </tr>
+      <tr>
+          <td><code>EVENT_LBUTTONDBLCLK</code></td>
+          <td>Doppelklick links</td>
+      </tr>
+      <tr>
+          <td><code>EVENT_RBUTTONDOWN</code></td>
+          <td>Rechte Maustaste</td>
+      </tr>
+      <tr>
+          <td><code>EVENT_RBUTTONUP</code></td>
+          <td>Rechte Maustaste losgelassen</td>
+      </tr>
+      <tr>
+          <td><code>EVENT_MBUTTONDOWN</code></td>
+          <td>Mittlere Taste (Scrollrad)</td>
+      </tr>
+      <tr>
+          <td><code>EVENT_MOUSEMOVE</code></td>
+          <td>Maus bewegt</td>
+      </tr>
+      <tr>
+          <td><code>EVENT_MOUSEWHEEL</code></td>
+          <td>Maus-Rad vertikal</td>
+      </tr>
+      <tr>
+          <td><code>EVENT_MOUSEHWHEEL</code></td>
+          <td>Maus-Rad horizontal</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h1 id="5-matplotlib-in-jupyter">5. Matplotlib in Jupyter</h1>
+<p>OpenCV zeigt Bilder als BGR an, Matplotlib erwartet RGB.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> cv2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;bild.jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>img_rgb <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2RGB)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>))
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>imshow(img_rgb)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>axis(<span style="color:#e6db74">&#34;off&#34;</span>)
+</span></span></code></pre></div><hr>
+<h1 id="6-image-processing-basics">6. Image Processing Basics</h1>
+<hr>
+<h2 id="61-blending--addweighted">6.1 Blending – addWeighted</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>blend <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>addWeighted(img1, <span style="color:#ae81ff">0.7</span>, img2, <span style="color:#ae81ff">0.3</span>, <span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><p>Erlaubt Bildüberlagerungen und Transparenzeffekte.</p>
+<hr>
+<h2 id="62-bitwise-operations">6.2 Bitwise Operations</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>bit_and <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>bitwise_and(img, img, mask<span style="color:#f92672">=</span>mask)
+</span></span><span style="display:flex;"><span>bit_or  <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>bitwise_or(img, img, mask<span style="color:#f92672">=</span>mask)
+</span></span><span style="display:flex;"><span>bit_not <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>bitwise_not(img)
+</span></span><span style="display:flex;"><span>bit_xor <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>bitwise_xor(img, img, mask<span style="color:#f92672">=</span>mask)
+</span></span></code></pre></div><p>Ideal für Maskierung &amp; Segmentierung.</p>
+<hr>
+<h2 id="63-farbkonvertierungen-histogramme-cvtcolor">6.3 Farbkonvertierungen Histogramme (cvtColor)</h2>
+<p>OpenCV verwendet <strong>BGR</strong>, aber viele Operationen (Histogramme, Thresholding, Preprocessing, Matplotlib) benötigen <strong>GRAY</strong> oder <strong>RGB</strong>.</p>
+<h4 id="häufige-umwandlungen">Häufige Umwandlungen:</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>rgb  <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2RGB)
+</span></span><span style="display:flex;"><span>hsv  <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2HSV)
+</span></span></code></pre></div><h4 id="wichtige-gründe-für-farbkonvertierungen">Wichtige Gründe für Farbkonvertierungen:</h4>
+<ul>
+<li>
+<p><strong>Gray</strong>: ideal für Thresholding, Edge Detection, Histogramme, Feature Detection</p>
+</li>
+<li>
+<p><strong>RGB</strong>: wird von Matplotlib benötigt</p>
+</li>
+<li>
+<p><strong>HSV</strong>: Farbsegmentierung (Hue für Farben, Value für Helligkeit)</p>
+</li>
+</ul>
+<hr>
+<h4 id="-colormapping-ausführlicher">✔️ Colormapping (ausführlicher)</h4>
+<p>Ein Colormap nimmt ein <strong>1-Kanal-Bild (z. B. Gray)</strong> und weist jedem Wert 0–255 eine Farbe zu:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>heat <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>applyColorMap(gray, cv2<span style="color:#f92672">.</span>COLORMAP_JET)
+</span></span></code></pre></div><p>Typische Colormaps:</p>
+<ul>
+<li><code>COLORMAP_JET</code> → Blau → Rot</li>
+<li><code>COLORMAP_HOT</code> → Schwarz → Rot → Gelb → Weiß</li>
+<li><code>COLORMAP_OCEAN</code></li>
+<li><code>COLORMAP_TURBO</code> (moderne Alternative zu „JET“)</li>
+</ul>
+<hr>
+<h3 id="631-histogramme--rgb-calchist-und-histogram-equalization"><strong>6.3.1 Histogramme – RGB, calcHist, und Histogram Equalization</strong></h3>
+<p>Histogramme zeigen die Verteilung der Pixelintensitäten.<br>
+Man unterscheidet:</p>
+<ul>
+<li>
+<p><strong>RGB-Histogramme</strong> → Farbverteilung (3 Kanäle getrennt)</p>
+</li>
+<li>
+<p><strong>Grauwert-Histogramme</strong> → Kontrastanalyse</p>
+</li>
+<li>
+<p><strong>Histogram Equalization</strong> → Kontrastverstärkung</p>
+</li>
+</ul>
+<p>Wir zeigen alle drei Kanäle (R, G, B) in einem Diagramm:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;bild.jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>b, g, r <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>split(img)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">5</span>))
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;RGB Histogramme&#34;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;Pixelwert&#34;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;Anzahl&#34;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(cv2<span style="color:#f92672">.</span>calcHist([b], [<span style="color:#ae81ff">0</span>], <span style="color:#66d9ef">None</span>, [<span style="color:#ae81ff">256</span>], [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">256</span>]), color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;blue&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(cv2<span style="color:#f92672">.</span>calcHist([g], [<span style="color:#ae81ff">0</span>], <span style="color:#66d9ef">None</span>, [<span style="color:#ae81ff">256</span>], [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">256</span>]), color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;green&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(cv2<span style="color:#f92672">.</span>calcHist([r], [<span style="color:#ae81ff">0</span>], <span style="color:#66d9ef">None</span>, [<span style="color:#ae81ff">256</span>], [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">256</span>]), color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlim([<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">256</span>])
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hist <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>calcHist([gray], [<span style="color:#ae81ff">0</span>], <span style="color:#66d9ef">None</span>, [<span style="color:#ae81ff">256</span>], [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">256</span>])
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th>Parameter</th>
+          <th>Bedeutung</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>[gray]</code></td>
+          <td>Eingabebildliste</td>
+      </tr>
+      <tr>
+          <td><code>[0]</code></td>
+          <td>Kanal 0 (einziges Graubild)</td>
+      </tr>
+      <tr>
+          <td><code>None</code></td>
+          <td>keine Maske</td>
+      </tr>
+      <tr>
+          <td><code>[256]</code></td>
+          <td>256 Bars im Histogramm</td>
+      </tr>
+      <tr>
+          <td><code>[0,256]</code></td>
+          <td>Wertebereich</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h4 id="histogram-equalization-kontrastverbesserung"><strong>Histogram Equalization</strong> (Kontrastverbesserung)</h4>
+<p>Histogram Equalization streckt dunkle Bereiche → mehr Details sichtbar.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>equalized <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>equalizeHist(gray)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Original Gray&#34;</span>, gray)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Equalized&#34;</span>, equalized)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h2 id="64-thresholding--alle-arten--erklärung">6.4 Thresholding – alle Arten &amp; Erklärung</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Typ</th>
+          <th>Beschreibung</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>THRESH_BINARY</strong></td>
+          <td>Pixel ≥ T → max, sonst 0</td>
+      </tr>
+      <tr>
+          <td><strong>THRESH_BINARY_INV</strong></td>
+          <td>Invertiert: Pixel ≥ T → 0, sonst max</td>
+      </tr>
+      <tr>
+          <td><strong>THRESH_TRUNC</strong></td>
+          <td>Pixel ≥ T → auf T reduziert, sonst bleibt</td>
+      </tr>
+      <tr>
+          <td><strong>THRESH_TOZERO</strong></td>
+          <td>Pixel &lt; T → 0, sonst bleibt</td>
+      </tr>
+      <tr>
+          <td><strong>THRESH_TOZERO_INV</strong></td>
+          <td>Pixel ≥ T → 0</td>
+      </tr>
+      <tr>
+          <td><strong>ADAPTIVE_MEAN_C</strong></td>
+          <td>Lokaler Schwellenwert = Mittelwert der Umgebung</td>
+      </tr>
+      <tr>
+          <td><strong>ADAPTIVE_GAUSSIAN_C</strong></td>
+          <td>Lokaler Schwellenwert = Gauß-gewichteter Durchschnitt</td>
+      </tr>
+      <tr>
+          <td><strong>OTSU</strong></td>
+          <td>Automatisch beste Schwelle berechnet</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<p>Beispiel:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ret, binary <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>threshold(gray, <span style="color:#ae81ff">127</span>, <span style="color:#ae81ff">255</span>, cv2<span style="color:#f92672">.</span>THRESH_BINARY)
+</span></span><span style="display:flex;"><span>adaptive <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>adaptiveThreshold(gray, <span style="color:#ae81ff">255</span>,
+</span></span><span style="display:flex;"><span>                                 cv2<span style="color:#f92672">.</span>ADAPTIVE_THRESH_GAUSSIAN_C,
+</span></span><span style="display:flex;"><span>                                 cv2<span style="color:#f92672">.</span>THRESH_BINARY, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><hr>
+<h2 id="65-blurring-averaging-gaussian-median-bilateral">6.5 Blurring (Averaging, Gaussian, Median, Bilateral)</h2>
+<h3 id="averaging-blur-cv2blur"><strong>Averaging Blur (cv2.blur)</strong></h3>
+<p>Gleichmäßiger Kernel, glättet stark.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>blur <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>blur(img, (<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">7</span>))
+</span></span></code></pre></div><h3 id="gaussian-blur-cv2gaussianblur"><strong>Gaussian Blur (cv2.GaussianBlur)</strong></h3>
+<p>Gewichtet Pixel nach Gauß-Verteilung → sehr weicher Blur.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>gauss <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>GaussianBlur(img, (<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">7</span>), <span style="color:#ae81ff">1.5</span>)
+</span></span></code></pre></div><h3 id="median-blur-cv2medianblur"><strong>Median Blur (cv2.medianBlur)</strong></h3>
+<p>Sehr gut gegen Salt-and-Pepper Noise.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>med <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>medianBlur(img, <span style="color:#ae81ff">5</span>)
+</span></span></code></pre></div><h3 id="bilateral-filter-cv2bilateralfilter"><strong>Bilateral Filter (cv2.bilateralFilter)</strong></h3>
+<p>Glättet, <strong>ohne Kanten zu verlieren</strong>, da Farbdifferenzen berücksichtigt werden.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>bil <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>bilateralFilter(img, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">75</span>, <span style="color:#ae81ff">75</span>)
+</span></span></code></pre></div><hr>
+<h2 id="66-kernel-size--interaktive-kernel-demo">6.6 Kernel Size &amp; Interaktive Kernel-Demo</h2>
+<p>👉 Interaktive Seite: <strong><a href="https://setosa.io/ev/image-kernels/">https://setosa.io/ev/image-kernels/</a></strong><br>
+Zeigt visuell, wie Convolution-Kerne wirken.</p>
+<hr>
+<h2 id="67-2d-convolution--kurz-erklärt">6.7 2D Convolution – Kurz erklärt</h2>
+<p>Prinzip:</p>
+<pre tabindex="0"><code>Neuer Wert = Summe(Kernel * Pixelumgebung)
+</code></pre><p>Beispiel:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>kernel <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ones((<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>), np<span style="color:#f92672">.</span>float32)<span style="color:#f92672">/</span><span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>conv <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>filter2D(img, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, kernel)
+</span></span></code></pre></div><p>Verwendet für:</p>
+<ul>
+<li>
+<p>Blur</p>
+</li>
+<li>
+<p>Sharpen</p>
+</li>
+<li>
+<p>Edge Detection</p>
+</li>
+<li>
+<p>Custom-Filter</p>
+</li>
+</ul>
+<hr>
+<h2 id="68-noise-rauschen-hinzufügen">6.8 Noise (Rauschen hinzufügen)</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>noise <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">2</span>,(img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]))
+</span></span><span style="display:flex;"><span>sp <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>sp[noise <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>sp[noise <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span>
+</span></span></code></pre></div><p>Simuliert Salt-and-Pepper-Rauschen.</p>
+<hr>
+<h2 id="69-bilateral-filter--kurzbeschreibung">6.9 Bilateral Filter – Kurzbeschreibung</h2>
+<p>Der bilaterale Filter berücksichtigt:</p>
+<ol>
+<li>
+<p><strong>Räumliche Distanz</strong> (wie Gaussian)</p>
+</li>
+<li>
+<p><strong>Farbähnlichkeit</strong> (verhindert Verwischen von Kanten)</p>
+</li>
+</ol>
+<p>Ergebnis:</p>
+<ul>
+<li>
+<p>glattes Bild</p>
+</li>
+<li>
+<p>scharfe Kanten bleiben erhalten</p>
+</li>
+</ul>
+<hr>
+<h2 id="610-morphological-operations--erosion--dilation-kurz-angerissen"><strong>6.10 Morphological Operations – Erosion &amp; Dilation (kurz angerissen)</strong></h2>
+<p>Morphologische Operationen arbeiten auf <strong>binären Bildern</strong> (schwarz/weiß) und verändern die <strong>Form</strong> der Objekte.<br>
+Sie basieren auf einem kleinen Struktur-Element („Kernel“).</p>
+<hr>
+<h3 id="erosion-cv2erode"><strong>Erosion (cv2.erode)</strong></h3>
+<p>→ <strong>Objekte schrumpfen</strong></p>
+<ul>
+<li>
+<p>Entfernt kleine weiße Pixelbereiche</p>
+</li>
+<li>
+<p>„Frisst“ Pixel an den Objektkanten weg</p>
+</li>
+<li>
+<p>Sehr gut zum Entfernen von Noise oder dünnen Linien</p>
+</li>
+</ul>
+<p><code>kernel = np.ones((5,5), np.uint8) eroded = cv2.erode(thresh, kernel, iterations=1)</code></p>
+<hr>
+<h3 id="dilation-cv2dilate"><strong>Dilation (cv2.dilate)</strong></h3>
+<p>→ <strong>Objekte wachsen</strong></p>
+<ul>
+<li>
+<p>Macht weiße Objekte größer</p>
+</li>
+<li>
+<p>Schließt kleine Löcher</p>
+</li>
+<li>
+<p>Gut nach Erosion oder zur Hervorhebung von Konturen</p>
+</li>
+</ul>
+<p><code>kernel = np.ones((5,5), np.uint8) dilated = cv2.dilate(thresh, kernel, iterations=1)</code></p>
+<h1 id="7-template-matching-corner-detection-edge-detection-grid-detection--contours-kompakt--vollständig">7 Template Matching, Corner Detection, Edge Detection, Grid Detection &amp; Contours (kompakt + vollständig)**</h1>
+<hr>
+<h2 id="71-template-matching"><strong>7.1 Template Matching</strong></h2>
+<p>Template Matching sucht ein kleines Muster (Template) im großen Bild.</p>
+<h4 id="6-matching-methoden-opencv">6 Matching-Methoden (OpenCV)</h4>
+<table>
+  <thead>
+      <tr>
+          <th>Methode</th>
+          <th>Bedeutung</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>TM_SQDIFF</code></td>
+          <td>Niedriger = bessere Übereinstimmung</td>
+      </tr>
+      <tr>
+          <td><code>TM_SQDIFF_NORMED</code></td>
+          <td>Normalisierte Variante</td>
+      </tr>
+      <tr>
+          <td><code>TM_CCORR</code></td>
+          <td>Höher = besser</td>
+      </tr>
+      <tr>
+          <td><code>TM_CCORR_NORMED</code></td>
+          <td>Normalisiert</td>
+      </tr>
+      <tr>
+          <td><code>TM_CCOEFF</code></td>
+          <td>Korrelationskoeffizient (helligkeitsrobust)</td>
+      </tr>
+      <tr>
+          <td><code>TM_CCOEFF_NORMED</code></td>
+          <td>Normalisiert (oft beste Wahl)</td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> cv2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;bild.jpg&#34;</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>tpl <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;tpl.jpg&#34;</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>h, w <span style="color:#f92672">=</span> tpl<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>methods <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>TM_SQDIFF, cv2<span style="color:#f92672">.</span>TM_SQDIFF_NORMED,
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>TM_CCORR, cv2<span style="color:#f92672">.</span>TM_CCORR_NORMED,
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>TM_CCOEFF, cv2<span style="color:#f92672">.</span>TM_CCOEFF_NORMED
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> m <span style="color:#f92672">in</span> methods:
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>matchTemplate(img, tpl, m)
+</span></span><span style="display:flex;"><span>    min_val, max_val, min_loc, max_loc <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>minMaxLoc(res)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    top_left <span style="color:#f92672">=</span> min_loc <span style="color:#66d9ef">if</span> m <span style="color:#f92672">in</span> [cv2<span style="color:#f92672">.</span>TM_SQDIFF, cv2<span style="color:#f92672">.</span>TM_SQDIFF_NORMED] <span style="color:#66d9ef">else</span> max_loc
+</span></span><span style="display:flex;"><span>    bottom_right <span style="color:#f92672">=</span> (top_left[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">+</span>w, top_left[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span>h)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    disp <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_GRAY2BGR)
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>rectangle(disp, top_left, bottom_right, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>), <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>imshow(str(m), disp)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>destroyAllWindows()
+</span></span></code></pre></div><h2 id="72-corner-detection"><strong>7.2 Corner Detection</strong></h2>
+<hr>
+<h3 id="721-harris-corner">7.2.1 Harris Corner</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;bild.jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>float32(gray)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dst <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cornerHarris(gray, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0.04</span>)
+</span></span><span style="display:flex;"><span>dst <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>dilate(dst, <span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>img[dst <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.01</span> <span style="color:#f92672">*</span> dst<span style="color:#f92672">.</span>max()] <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>]
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Harris&#34;</span>, img)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h3 id="722-shi-tomasi-good-features-to-track">7.2.2 Shi-Tomasi (Good Features To Track)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>corners <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>goodFeaturesToTrack(gray, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">0.01</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>corners <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>int0(corners)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> corners:
+</span></span><span style="display:flex;"><span>    x, y <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span>ravel()
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>circle(img, (x,y), <span style="color:#ae81ff">4</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0</span>), <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Shi-Tomasi&#34;</span>, img)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h2 id="73-edge-detection--canny--konturen"><strong>7.3 Edge Detection – Canny + Konturen</strong></h2>
+<hr>
+<h4 id="sobel-operator-gerichtete-kanten">Sobel-Operator (gerichtete Kanten)</h4>
+<p>Der <strong>Sobel-Operator</strong> erkennt Kanten in <strong>x- oder y-Richtung</strong>:</p>
+<ul>
+<li>
+<p><strong>Sobel X</strong> → vertikale Kanten</p>
+</li>
+<li>
+<p><strong>Sobel Y</strong> → horizontale Kanten</p>
+</li>
+<li>
+<p>Kombination → diagonale / allgemeine Kanten</p>
+</li>
+</ul>
+<hr>
+<p><strong>Sobel X</strong></p>
+<p><code>sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)</code></p>
+<p><strong>Sobel Y</strong></p>
+<p><code>sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)</code></p>
+<p><strong>Magnitude (Stärke der Kante)</strong></p>
+<p><code>sobel_mag = cv2.magnitude(sobelx, sobely)</code></p>
+<hr>
+<h4 id="scharr-operator-besser-als-sobel">Scharr-Operator (besser als Sobel)</h4>
+<p>Für sehr feine Details nutzt man den <strong>Scharr-Operator</strong>:</p>
+<p><code>scharrx = cv2.Scharr(img, cv2.CV_64F, 1, 0) scharry = cv2.Scharr(img, cv2.CV_64F, 0, 1)</code></p>
+<p>Er ist wie Sobel, aber mathematisch präziser.</p>
+<hr>
+<h4 id="laplacian-zweite-ableitung--allgemeinere-kanten">Laplacian (zweite Ableitung → allgemeinere Kanten)</h4>
+<p>Der Laplace-Operator erkennt <strong>Kanten in alle Richtungen gleichzeitig</strong>, weil er die <strong>zweite Ableitung</strong> berechnet.</p>
+<p><code>laplace = cv2.Laplacian(img, cv2.CV_64F)</code></p>
+<p>➡️ Resultat: sehr „schmale“, scharfe Kanten.<br>
+➡️ Empfindlich für Noise → vorher blurren!</p>
+<h3 id="731-canny">7.3.1 Canny</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>edges <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>Canny(gray, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Canny&#34;</span>, edges)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h3 id="732-konturen-aus-canny-extrahieren">7.3.2 Konturen aus Canny extrahieren</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>contours, hierarchy <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findContours(edges,
+</span></span><span style="display:flex;"><span>                                       cv2<span style="color:#f92672">.</span>RETR_EXTERNAL,
+</span></span><span style="display:flex;"><span>                                       cv2<span style="color:#f92672">.</span>CHAIN_APPROX_SIMPLE)
+</span></span></code></pre></div><hr>
+<h3 id="733-konturen-nach-canny-zeichnen">7.3.3 Konturen nach Canny zeichnen</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>img_c <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>drawContours(img_c, contours, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Canny Contours&#34;</span>, img_c)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h3 id="734-feinkonturen-approxpolydp">7.3.4 Feinkonturen (approxPolyDP)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>img_a <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> cnt <span style="color:#f92672">in</span> contours:
+</span></span><span style="display:flex;"><span>    eps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.01</span> <span style="color:#f92672">*</span> cv2<span style="color:#f92672">.</span>arcLength(cnt, <span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    approx <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>approxPolyDP(cnt, eps, <span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>drawContours(img_a, [approx], <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>), <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Canny Approx&#34;</span>, img_a)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h2 id="74-grid-detection-chessboard--circle-grid"><strong>7.4 Grid Detection (Chessboard &amp; Circle Grid)</strong></h2>
+<p>Wichtig für Kalibrierung, Tracking, Pose Estimation.</p>
+<hr>
+<h3 id="741-chessboard">7.4.1 Chessboard</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pattern <span style="color:#f92672">=</span> (<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">6</span>)
+</span></span><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>found, corners <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findChessboardCorners(gray, pattern)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> found:
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>drawChessboardCorners(img, pattern, corners, found)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Chessboard&#34;</span>, img)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h3 id="742-circle-grid">7.4.2 Circle Grid</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pattern <span style="color:#f92672">=</span> (<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">11</span>)
+</span></span><span style="display:flex;"><span>found, centers <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findCirclesGrid(gray, pattern,
+</span></span><span style="display:flex;"><span>                                     flags<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>CALIB_CB_ASYMMETRIC_GRID)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> found:
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>drawChessboardCorners(img, pattern, centers, found)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Circle Grid&#34;</span>, img)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h3 id="743-grid-detection-in-videos-kurz">7.4.3 Grid Detection in Videos (kurz)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cap <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>VideoCapture(<span style="color:#e6db74">&#34;video.mp4&#34;</span>)
+</span></span><span style="display:flex;"><span>pattern <span style="color:#f92672">=</span> (<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">6</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>    ret, frame <span style="color:#f92672">=</span> cap<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> ret:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(frame, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>    found, corners <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findChessboardCorners(gray, pattern)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> found:
+</span></span><span style="display:flex;"><span>        cv2<span style="color:#f92672">.</span>drawChessboardCorners(frame, pattern, corners, found)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Grid Video&#34;</span>, frame)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">27</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cap<span style="color:#f92672">.</span>release()
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>destroyAllWindows()
+</span></span></code></pre></div><hr>
+<h2 id="75-contour-detection-objektkonturen"><strong>7.5 Contour Detection (Objektkonturen)</strong></h2>
+<hr>
+<h3 id="751-konturen-finden">7.5.1 Konturen finden</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>gray <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(img, cv2<span style="color:#f92672">.</span>COLOR_BGR2GRAY)
+</span></span><span style="display:flex;"><span>ret, thresh <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>threshold(gray, <span style="color:#ae81ff">127</span>, <span style="color:#ae81ff">255</span>, cv2<span style="color:#f92672">.</span>THRESH_BINARY)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>contours, hierarchy <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findContours(thresh,
+</span></span><span style="display:flex;"><span>                                       cv2<span style="color:#f92672">.</span>RETR_TREE,
+</span></span><span style="display:flex;"><span>                                       cv2<span style="color:#f92672">.</span>CHAIN_APPROX_SIMPLE)
+</span></span></code></pre></div><hr>
+<h3 id="752-konturen-zeichnen">7.5.2 Konturen zeichnen</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>img_cnt <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>drawContours(img_cnt, contours, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#34;Contours&#34;</span>, img_cnt)
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><hr>
+<h3 id="753-feinkonturen-polygonapproximation">7.5.3 Feinkonturen (Polygonapproximation)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cnt <span style="color:#f92672">=</span> max(contours, key<span style="color:#f92672">=</span>cv2<span style="color:#f92672">.</span>contourArea)
+</span></span><span style="display:flex;"><span>eps <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.01</span> <span style="color:#f92672">*</span> cv2<span style="color:#f92672">.</span>arcLength(cnt, <span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>approx <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>approxPolyDP(cnt, eps, <span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>drawContours(img, [approx], <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>), <span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><hr>
+<h3 id="754-konturen-filtern--hierarchie-verstehen">7.5.4 Konturen filtern &amp; Hierarchie verstehen</h3>
+<h4 id="nach-größe-filtern-z-b-nur-große-objekte">Nach Größe filtern (z. B. nur große Objekte)</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>filtered <span style="color:#f92672">=</span> [c <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> contours <span style="color:#66d9ef">if</span> cv2<span style="color:#f92672">.</span>contourArea(c) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1000</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>drawContours(img, filtered, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><h4 id="nur-äußere-konturen-hintergrundtop-level">Nur äußere Konturen (Hintergrund/Top-Level)</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cont_ext, hier_ext <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>findContours(thresh,
+</span></span><span style="display:flex;"><span>                                      cv2<span style="color:#f92672">.</span>RETR_EXTERNAL,
+</span></span><span style="display:flex;"><span>                                      cv2<span style="color:#f92672">.</span>CHAIN_APPROX_SIMPLE)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>drawContours(img, cont_ext, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>), <span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><p><strong>Hierarchie kurz erklärt</strong></p>
+<p><code>hierarchy[0][i] = [next, prev, first_child, parent]</code></p>
+<p>Z. B. <strong>nur Konturen ohne Parent → äußerste Ebene</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>top_level <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, cnt <span style="color:#f92672">in</span> enumerate(contours):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> hierarchy[<span style="color:#ae81ff">0</span>][i][<span style="color:#ae81ff">3</span>] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:  <span style="color:#75715e"># parent == -1</span>
+</span></span><span style="display:flex;"><span>        top_level<span style="color:#f92672">.</span>append(cnt)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cv2<span style="color:#f92672">.</span>drawContours(img, top_level, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>), <span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div></article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  by Damian Bock 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
