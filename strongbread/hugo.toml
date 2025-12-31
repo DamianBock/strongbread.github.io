@@ -6,7 +6,7 @@ resourceDir = "../resources"
 
 DefaultContentLanguage = "en"
 SectionPagesMenu = "main"
-pagination.pagerSize = 3                  # this is set low for demonstrating with dummy content. Set to a higher number
+pagination.pagerSize = 4                  # this is set low for demonstrating with dummy content. Set to a higher number
 googleAnalytics = ""
 enableRobotsTXT = true
 
@@ -23,7 +23,7 @@ priority = 0.5
 filename = "sitemap.xml"
 
 [params]
-text_color = ""
+text_color = "black"
 author = ""
 favicon = ""
 site_logo = ""
@@ -31,6 +31,8 @@ description = "Damian’s Daily Bread, unsorted"
 # choose a background color from any on this page: https://tachyons.io/docs/themes/skins/ and preface it with "bg-"
 background_color_class = "bg-washed-yellow"
 recent_posts_number = 3
+
+custom_css = ["css/custom.css"]
 
 [[params.ananke_socials]]
 name = "Hevy"

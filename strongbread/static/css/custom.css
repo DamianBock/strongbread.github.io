@@ -1,0 +1,10 @@
+/* Macht den Titel oben links (Site Title) schwarz */
+header nav a {
+    color: #000000 !important; /* Schwarz */
+}
+
+/* Falls du Social Icons nutzt, die auch weiß sind */
+.ananke-socials a {
+    color: #000000 !important;
+}
+
