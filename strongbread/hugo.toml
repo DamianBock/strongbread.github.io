@@ -3,8 +3,11 @@ baseURL = "https://strongbread.com"
 languageCode = "en-us"
 theme = 'ananke'
 resourceDir = "../resources"
-
+pluralizeListTitles = false
 DefaultContentLanguage = "en"
+
+
+
 SectionPagesMenu = "main"
 pagination.pagerSize = 4                  # this is set low for demonstrating with dummy content. Set to a higher number
 googleAnalytics = ""

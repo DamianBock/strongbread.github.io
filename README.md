@@ -1,6 +1,19 @@
 # strongbread.github.io
 
+First color pallete choice
+--text: #424148;
+--background: #fffceb;
+--primary: #fdcc72;
+--secondary: #632808;
+--accent: #4a4c92;
 
+
+Second color pallete choice
+--text: #424148;
+--background: #fffceb;
+--primary: #624520;
+--secondary: #eed4cc;
+--accent: #b5dfa7;
 
 
 ## SSL Certificate Setup with Docker Compose

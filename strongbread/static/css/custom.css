@@ -1,10 +1,49 @@
-/* Macht den Titel oben links (Site Title) schwarz */
-header nav a {
-    color: #000000 !important; /* Schwarz */
+/* --- COLORS --- */
+/* Define your colors once here so they are easy to change later */
+:root {
+    --text-color: #424148;
+    --nav-bg: #fdcc72;
+    --main-bg: #fffceb;
 }
 
-/* Falls du Social Icons nutzt, die auch weiß sind */
+/* --- NAVIGATION --- */
+header nav {
+    background-color: var(--nav-bg);
+    /* Only keep the border here if you want a line UNDER the menu items */
+    border-bottom: 3px solid var(--text-color); 
+}
+
+/* Force Navigation Links to be Dark */
+header nav a, 
 .ananke-socials a {
-    color: #000000 !important;
+    color: var(--text-color) !important;
 }
 
+/* Force Title Text to be Dark */
+header h1, 
+header h2,
+header .lh-copy {
+    color: var(--text-color) !important;
+}
+
+/* --- MAIN CONTENT --- */
+main {
+    background-color: var(--main-bg);
+}
+main .bg-white {
+    background-color: #fdcc72 !important;
+    
+}
+main .gray {
+    color: #424148;
+}
+
+/* Picture state: ONLY add the bottom border if the header has the 'cover' class */
+header div .tc-l {
+    border-bottom: 3px solid #424148 !important;
+}
+
+main .relative.w-100.mb4 {
+    border-radius: 15px;      /* Define the roundness here */
+    overflow: hidden;         /* Ensures images don't spill out of the rounded corners */
+}
